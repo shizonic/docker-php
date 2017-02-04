@@ -17,6 +17,7 @@ ENV PHPUNIT_SHA256_CHECKSUM "1cad3525717362d0851d67bce8cb85abd100809bf1ddc20139e
 
 # Install build essentials & dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends \
+    sudo \
     build-essential \
     libfcgi-dev \
     libfcgi0ldbl \
