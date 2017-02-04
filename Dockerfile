@@ -5,15 +5,15 @@ MAINTAINER Toby Merz <realtiaz@gmail.com>
 
 # Version
 # URL: https://secure.php.net/downloads.php
-ENV PHP_VERSION "7.0.15"
-ENV PHP_SHA256_CHECKSUM "c24324c6d4bf27e8bc1d12da0aae4f15a43c8374f681e23e9b1e67f5b719c3a6"
+ENV PHP_VERSION "5.6.30"
+ENV PHP_SHA256_CHECKSUM "8bc7d93e4c840df11e3d9855dcad15c1b7134e8acf0cf3b90b932baea2d0bde2"
 
 # URL: https://getcomposer.org/download/
 ENV COMPOSER_VERSION "1.3.2"
 
 # URL: https://phar.phpunit.de/
-ENV PHPUNIT_VERSION "6.0.3"
-ENV PHPUNIT_SHA256_CHECKSUM "1cad3525717362d0851d67bce8cb85abd100809bf1ddc20139e7387927e2f077"
+ENV PHPUNIT_VERSION "5.7.10"
+ENV PHPUNIT_SHA256_CHECKSUM "6c60f09fa913c9198efdb39edf2768ad8fdb0ab596c3a608688cb1d86f0706eb"
 
 # Install build essentials & dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends \
