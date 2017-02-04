@@ -8,6 +8,10 @@ MAINTAINER Toby Merz <realtiaz@gmail.com>
 ENV PHP_VERSION "7.1.1"
 ENV PHP_SHA256_CHECKSUM "c136279d539c3c2c25176bf149c14913670e79bb27ee6b73e1cd69003985a70d"
 
+# URL: https://sourceforge.net/projects/graphicsmagick/files/graphicsmagick/
+ENV GRAPHICSMAGICK_VERSION "1.3.25"
+ENV GRAPHICSMAGICK_SHA1_CHECKSUM "0acd6bb1cb3b420fa4b20a06f7aae240169174e3"
+
 # URL: https://getcomposer.org/download/
 ENV COMPOSER_VERSION "1.3.2"
 
@@ -18,6 +22,8 @@ ENV PHPUNIT_SHA256_CHECKSUM "1cad3525717362d0851d67bce8cb85abd100809bf1ddc20139e
 # Install build essentials & dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends \
     sudo \
+    autoconf \
+    git \
     build-essential \
     libfcgi-dev \
     libfcgi0ldbl \
@@ -45,6 +51,21 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     ghostscript \
     && \
     mkdir -p /usr/src/php && \
+    mkdir -p /usr/src/graphicsmagick && \
+
+# Load and compile GraphicsMagick
+    cd /usr/src/graphicsmagick && \
+    wget https://sourceforge.net/projects/graphicsmagick/files/graphicsmagick/${GRAPHICSMAGICK_VERSION}/GraphicsMagick-${GRAPHICSMAGICK_VERSION}.tar.gz -O GraphicsMagick-${GRAPHICSMAGICK_VERSION}.tar.gz && \
+    openssl sha1 GraphicsMagick-${GRAPHICSMAGICK_VERSION}.tar.gz | grep "${GRAPHICSMAGICK_SHA1_CHECKSUM}" && \
+    tar -xvzf GraphicsMagick-${GRAPHICSMAGICK_VERSION}.tar.gz && \
+    cd GraphicsMagick-${GRAPHICSMAGICK_VERSION}/ && \
+    ./configure \
+    --prefix=/opt/graphicsmagick \
+    --without-perl --enable-shared \
+    && \
+    make && \
+    make install && \
+    rm -rf /usr/src/graphicsmagick && \
 
 # Load and compile PHP
 # @TODO: Make /etc/php to default config path
@@ -71,6 +92,16 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     --with-readline \
     --with-recode \
     --with-zlib \
+    && \
+    make && \
+    make install && \
+
+# Load and compose gmagick PHP Extension
+    git clone https://github.com/vitoc/gmagick.git && \
+    cd gmagick && \
+    phpize && \
+    ./configure \
+    --with-gmagick="/opt/graphicsmagick" \
     && \
     make && \
     make install && \
