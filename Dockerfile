@@ -1,7 +1,7 @@
 # PHP Docker Image + Necessary Extensions + Tools
 
 FROM servivum/debian:jessie
-MAINTAINER Patrick Baber <patrick.baber@servivum.com>
+MAINTAINER Toby Merz <realtiaz@gmail.com>
 
 # Version
 # URL: https://secure.php.net/downloads.php
