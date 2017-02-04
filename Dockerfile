@@ -13,7 +13,7 @@ ENV COMPOSER_VERSION "1.3.2"
 
 # URL: https://phar.phpunit.de/
 ENV PHPUNIT_VERSION "6.0.3"
-ENV PHPUNIT_SHA256_CHECKSUM "341d9687dabd30fc73492b4f2f1b8160bcc0ab9fe44344fc87a7a5b70421e407"
+ENV PHPUNIT_SHA256_CHECKSUM "1cad3525717362d0851d67bce8cb85abd100809bf1ddc20139e7387927e2f077"
 
 # Install build essentials & dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends \
