@@ -6,7 +6,7 @@ MAINTAINER Toby Merz <realtiaz@gmail.com>
 # Version
 # URL: https://secure.php.net/downloads.php
 ENV PHP_VERSION "7.0.15"
-ENV PHP_SHA256_CHECKSUM "a8c8f947335683fa6dd1b7443ed70f2a42bc33e8b6c215f139138cee89e47dd9"
+ENV PHP_SHA256_CHECKSUM "c24324c6d4bf27e8bc1d12da0aae4f15a43c8374f681e23e9b1e67f5b719c3a6"
 
 # URL: https://getcomposer.org/download/
 ENV COMPOSER_VERSION "1.3.2"
