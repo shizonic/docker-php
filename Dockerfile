@@ -9,11 +9,11 @@ ENV PHP_VERSION "7.0.15"
 ENV PHP_SHA256_CHECKSUM "a8c8f947335683fa6dd1b7443ed70f2a42bc33e8b6c215f139138cee89e47dd9"
 
 # URL: https://getcomposer.org/download/
-ENV COMPOSER_VERSION "1.2.4"
+ENV COMPOSER_VERSION "1.3.2"
 
 # URL: https://phar.phpunit.de/
-ENV PHPUNIT_VERSION "5.7.2"
-ENV PHPUNIT_SHA256_CHECKSUM "989137a019a5cbdf7aac0d80df4942d5308de91c46eab7c18ed01fc78465d027"
+ENV PHPUNIT_VERSION "6.0.3"
+ENV PHPUNIT_SHA256_CHECKSUM "1cad3525717362d0851d67bce8cb85abd100809bf1ddc20139e7387927e2f077"
 
 # Install build essentials & dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends \
