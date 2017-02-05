@@ -97,8 +97,9 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     make install && \
 
 # Load and compose gmagick PHP Extension
-    git clone https://github.com/vitoc/gmagick.git && \
-    cd gmagick && \
+    wget https://pecl.php.net/get/gmagick-1.1.7RC3.tgz && \
+    tar -xvzf gmagick-1.1.7RC3.tgz && \
+    cd gmagick-1.1.7RC3 && \
     phpize && \
     ./configure \
     --with-gmagick="/opt/graphicsmagick" \
