@@ -1,6 +1,6 @@
 # PHP Docker Image + Necessary Extensions + Tools
 
-FROM servivum/debian:jessie
+FROM alpine:latest
 MAINTAINER Toby Merz <realtiaz@gmail.com>
 
 # Version
@@ -20,52 +20,38 @@ ENV PHPUNIT_VERSION "6.0.3"
 ENV PHPUNIT_SHA256_CHECKSUM "1cad3525717362d0851d67bce8cb85abd100809bf1ddc20139e7387927e2f077"
 
 # Install build essentials & dependencies
-RUN apt-get update && apt-get install -y --no-install-recommends \
+RUN apk --no-cache add \
     sudo \
+    build-base \
     autoconf \
+    make \
+    tar \
+    curl \
+    wget \
     git \
-    build-essential \
-    libfcgi-dev \
-    libfcgi0ldbl \
-    libjpeg62-turbo-dbg \
-    libmcrypt-dev \
-    libssl-dev \
-    libc-client2007e \
-#    libc-client2007e-dev \
-    libxml2-dev \
-    libbz2-dev \
-    libcurl4-openssl-dev \
-    libjpeg-dev \
-    libpng12-dev \
-    libfreetype6-dev \
-    libkrb5-dev \
-    libpq-dev \
-    libreadline6-dev \
-    librecode-dev \
-    libxml2-dev \
-    libxslt1-dev \
-    libmcrypt4 \
-    pkg-config \
-    graphicsmagick \
-    graphicsmagick-imagemagick-compat \
+    grep \
+    openssl \
     ghostscript \
+    readline-dev \
+    recode-dev \
+    libmcrypt-dev \
+    libxml2-dev \
+    libjpeg-turbo-dev \
+    curl-dev \
+    openssl-dev \
+    bzip2-dev \
+    gmp-dev \
+    freetype-dev \
+    libxpm-dev \
+    libwebp-dev \
+    libjpeg \
+    krb5-dev \
     && \
     mkdir -p /usr/src/php && \
     mkdir -p /usr/src/graphicsmagick && \
 
 # Load and compile GraphicsMagick
-    cd /usr/src/graphicsmagick && \
-    wget https://sourceforge.net/projects/graphicsmagick/files/graphicsmagick/${GRAPHICSMAGICK_VERSION}/GraphicsMagick-${GRAPHICSMAGICK_VERSION}.tar.gz -O GraphicsMagick-${GRAPHICSMAGICK_VERSION}.tar.gz && \
-    openssl sha1 GraphicsMagick-${GRAPHICSMAGICK_VERSION}.tar.gz | grep "${GRAPHICSMAGICK_SHA1_CHECKSUM}" && \
-    tar -xvzf GraphicsMagick-${GRAPHICSMAGICK_VERSION}.tar.gz && \
-    cd GraphicsMagick-${GRAPHICSMAGICK_VERSION}/ && \
-    ./configure \
-    --prefix=/opt/graphicsmagick \
-    --without-perl --enable-shared \
-    && \
-    make && \
-    make install && \
-    rm -rf /usr/src/graphicsmagick && \
+
 
 # Load and compile PHP
 # @TODO: Make /etc/php to default config path
@@ -108,12 +94,12 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     rm -rf /usr/src/php && \
 
 # Clean up
-    apt-get purge -y -f \
-    build-essential \
-    && \
-    apt-get clean autoclean && \
-    apt-get autoremove -y && \
-    rm -rf /var/lib/apt/lists/*
+    #apt-get purge -y -f \
+    #build-essential \
+    #&& \
+    #apt-get clean autoclean && \
+    #apt-get autoremove -y && \
+    #rm -rf /var/lib/apt/lists/*
 
 # Install Composer
 RUN wget https://getcomposer.org/download/${COMPOSER_VERSION}/composer.phar && \
@@ -131,8 +117,8 @@ RUN wget https://phar.phpunit.de/phpunit-${PHPUNIT_VERSION}.phar && \
 COPY etc/php/php-fpm.conf /usr/local/etc/php-fpm.conf
 
 # Add supervisor conf
-COPY etc/supervisor/conf.d/php-fpm.conf /etc/supervisor/conf.d/php-fpm.conf
+#COPY etc/supervisor/conf.d/php-fpm.conf /etc/supervisor/conf.d/php-fpm.conf
 
 WORKDIR /var/www
 EXPOSE 9000
-CMD ["/usr/bin/supervisord"]
+#CMD ["/usr/bin/supervisord"]
