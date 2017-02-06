@@ -19,19 +19,33 @@ ENV COMPOSER_VERSION "1.3.2"
 ENV PHPUNIT_VERSION "6.0.3"
 ENV PHPUNIT_SHA256_CHECKSUM "1cad3525717362d0851d67bce8cb85abd100809bf1ddc20139e7387927e2f077"
 
-# Install build essentials & dependencies
-RUN apk --no-cache add \
+RUN apk --update add \
     sudo \
+    curl \
+    openssl \
+    ghostscript \
+    recode \
+    readline \
+    libmcrypt \
+    libxml2 \
+    libjpeg \
+    libjpeg-turbo \
+    bzip2 \
+    gmp \
+    freetype \
+    libxpm \
+    libwebp \
+    krb5
+
+# Install build essentials & dependencies
+RUN apk --update add --virtual build-dependencies \
     build-base \
     autoconf \
     make \
     tar \
-    curl \
+    file \
     wget \
     git \
-    grep \
-    openssl \
-    ghostscript \
     readline-dev \
     recode-dev \
     libmcrypt-dev \
@@ -44,14 +58,24 @@ RUN apk --no-cache add \
     freetype-dev \
     libxpm-dev \
     libwebp-dev \
-    libjpeg \
     krb5-dev \
     && \
     mkdir -p /usr/src/php && \
     mkdir -p /usr/src/graphicsmagick && \
 
 # Load and compile GraphicsMagick
-
+    cd /usr/src/graphicsmagick && \
+    wget https://sourceforge.net/projects/graphicsmagick/files/graphicsmagick/${GRAPHICSMAGICK_VERSION}/GraphicsMagick-${GRAPHICSMAGICK_VERSION}.tar.gz -O GraphicsMagick-${GRAPHICSMAGICK_VERSION}.tar.gz && \
+    openssl sha1 GraphicsMagick-${GRAPHICSMAGICK_VERSION}.tar.gz | grep "${GRAPHICSMAGICK_SHA1_CHECKSUM}" && \
+    tar -xvzf GraphicsMagick-${GRAPHICSMAGICK_VERSION}.tar.gz && \
+    cd GraphicsMagick-${GRAPHICSMAGICK_VERSION}/ && \
+    ./configure \
+    --prefix=/opt/graphicsmagick \
+    --without-perl --enable-shared \
+    && \
+    make && \
+    make install && \
+    rm -rf /usr/src/graphicsmagick && \
 
 # Load and compile PHP
 # @TODO: Make /etc/php to default config path
@@ -91,15 +115,7 @@ RUN apk --no-cache add \
     && \
     make && \
     make install && \
-    rm -rf /usr/src/php && \
-
-# Clean up
-    #apt-get purge -y -f \
-    #build-essential \
-    #&& \
-    #apt-get clean autoclean && \
-    #apt-get autoremove -y && \
-    #rm -rf /var/lib/apt/lists/*
+    rm -rf /usr/src/php
 
 # Install Composer
 RUN wget https://getcomposer.org/download/${COMPOSER_VERSION}/composer.phar && \
@@ -112,13 +128,13 @@ RUN wget https://phar.phpunit.de/phpunit-${PHPUNIT_VERSION}.phar && \
     mv phpunit-${PHPUNIT_VERSION}.phar /usr/local/bin/phpunit && \
     chmod +x /usr/local/bin/phpunit
 
+# Clean up
+RUN apk del build-dependencies
+
 # Add php-fpm pool config
 # @TODO: Use php-fpm.conf from the compiling process and not an own version inside this repo.
 COPY etc/php/php-fpm.conf /usr/local/etc/php-fpm.conf
 
-# Add supervisor conf
-#COPY etc/supervisor/conf.d/php-fpm.conf /etc/supervisor/conf.d/php-fpm.conf
-
 WORKDIR /var/www
 EXPOSE 9000
-#CMD ["/usr/bin/supervisord"]
+CMD ["/usr/local/sbin/php-fpm", "--allow-to-run-as-root"]
