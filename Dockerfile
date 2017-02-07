@@ -5,8 +5,8 @@ MAINTAINER Toby Merz <realtiaz@gmail.com>
 
 # Version
 # URL: https://secure.php.net/downloads.php
-ENV PHP_VERSION "5.6.30"
-ENV PHP_SHA256_CHECKSUM "8bc7d93e4c840df11e3d9855dcad15c1b7134e8acf0cf3b90b932baea2d0bde2"
+ENV PHP_VERSION "5.5.38"
+ENV PHP_SHA256_CHECKSUM "4f458c9b504269615715a62f182b7c2f89bb8284f484befc221b56a1571b506e"
 
 # URL: https://sourceforge.net/projects/graphicsmagick/files/graphicsmagick/
 ENV GRAPHICSMAGICK_VERSION "1.3.25"
