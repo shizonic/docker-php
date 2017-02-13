@@ -154,6 +154,8 @@ RUN wget https://getcomposer.org/download/${COMPOSER_VERSION}/composer.phar && \
 # Clean up
 RUN apk del build-dependencies
 
-#WORKDIR /var/www
-#EXPOSE 9000
-#CMD ["/usr/local/sbin/php-fpm", "--allow-to-run-as-root"]
+# Create user tm
+RUN adduser -D -H -G www-data tm
+
+# Run commands as user tm
+# USER tm
