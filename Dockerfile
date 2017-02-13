@@ -3,19 +3,144 @@
 FROM php:7.1.1-fpm-alpine
 MAINTAINER Toby Merz <realtiaz@gmail.com>
 
-RUN apk --update add \
+RUN apk --update add \  
+    #sudo \
+    #wget \
+    #imagemagick
+
     sudo \
-    imagemagick
+    wget \
+    vim \
+    bash \
+    git \
+    tar \
+    curl \
+    grep \
+    zlib \
+    make \
+    libxml2 \
+    libxslt \
+    libedit \
+    readline \
+    recode \
+    freetype \
+    openssl \
+    libjpeg-turbo \
+    libpng \
+    libmcrypt \
+    libwebp \
+    icu \
+    imagemagick \
+    zip
 
 RUN apk --update add --virtual build-dependencies \
-    wget \
     build-base \
     autoconf \
+    bzip2-dev \
+    libpng-dev \
     imagemagick-dev \
-    libtool
+    curl-dev \
+    libxml2-dev \
+    libxslt-dev \
+    libmcrypt-dev \
+    sqlite-dev \
+    postgresql-dev \
+    libedit-dev \
+    libtool \
+
+    #build-base \
+    re2c \
+    file \
+    readline-dev \
+    recode-dev \
+    #autoconf \
+    binutils \
+    bison \
+    #libxml2-dev \
+    #curl-dev \
+    freetype-dev \
+    openssl-dev \
+    libjpeg-turbo-dev \
+    #libpng-dev \
+    libwebp-dev \
+    #libmcrypt-dev \
+    gmp-dev \
+    icu-dev \
+    #libmemcached-dev \
+    linux-headers
 
 RUN docker-php-source extract \
-    && yes | pecl install imagick \
+    && yes | pecl install \
+        imagick \
+        yaml \
+    && docker-php-ext-install \
+        bcmath \
+        #bz2 \
+        calendar \
+        ctype \
+        curl \
+        dba \
+        dom \
+        #enchant \
+        exif \
+        fileinfo \
+        #filter \
+        ftp \
+        gd \
+        #gettext \
+        gmp \
+        hash \
+        iconv \
+        #imap \
+        #interbase \
+        #intl \
+        json \
+        #ldap \
+        mbstring \
+        mcrypt \
+        mysqli \
+        #oci8 \
+        #odbc \
+        opcache \
+        pcntl \
+        pdo \
+        #pdo_dblib \
+        #pdo_firebird \
+        pdo_mysql \
+        #pdo_oci \
+        #pdo_odbc \
+        #pdo_pgsql \
+        pdo_sqlite \
+        #pgsql \
+        phar \
+        posix \
+        #pspell \
+        readline \
+        recode \
+        #reflection \
+        session \
+        #shmop \
+        simplexml \
+        #snmp \
+        soap \
+        sockets \
+        #spl \
+        #standard \
+        #sysvmsg \
+        #sysvsem \
+        #sysvshm \
+        #tidy \
+        tokenizer \
+        #wddx \
+        xml \
+        #xmlreader \
+        #xmlrpc \
+        #xmlwriter \
+        xsl \
+        zip \
+    && docker-php-ext-enable \
+        imagick \
+        #yaml \
     && docker-php-source delete
 
 # URL: https://getcomposer.org/download/
