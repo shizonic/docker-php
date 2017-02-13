@@ -154,8 +154,9 @@ RUN wget https://getcomposer.org/download/${COMPOSER_VERSION}/composer.phar && \
 # Clean up
 RUN apk del build-dependencies
 
-# Create user tm
-RUN adduser -D -H -G www-data tm
+# Create user tm and allow to use sudo
+RUN adduser -D -H -G www-data tm \
+    && echo "tm ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
 
 # Run commands as user tm
-# USER tm
+USER tm
