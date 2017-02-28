@@ -154,9 +154,19 @@ RUN wget https://getcomposer.org/download/${COMPOSER_VERSION}/composer.phar && \
 # Clean up
 RUN apk del build-dependencies
 
-## Create user tm and allow to use sudo
-RUN adduser -D -H -G www-data tm \
-    && echo "tm ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
+# Setup user and group
+ENV USER_ID 1000
+ENV GROUP_ID 100
 
-# Run commands as user tm
-USER tm
+RUN echo "developer:x:${USER_ID}:${GROUP_ID}:Developer,,,:/var/www/html:/bin/ash" >> /etc/passwd && \
+    echo "developer:x:${USER_ID}:" >> /etc/group && \
+    echo "developer ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/developer && \
+    chmod 0440 /etc/sudoers.d/developer && \
+    chown ${USER_ID}:${GROUP_ID} -R /var/www/html
+
+# Create user tm and allow to use sudo
+#RUN adduser -D -H -G www-data tm \
+#    && echo "tm ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
+
+# Run commands as user developer
+USER developer
