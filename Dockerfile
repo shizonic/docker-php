@@ -1,6 +1,6 @@
 # PHP Docker Image + Necessary Extensions + Tools
 
-FROM php:7.1.1-fpm-alpine
+FROM php:7.1.2-fpm-alpine
 MAINTAINER Toby Merz <realtiaz@gmail.com>
 
 RUN apk --update add \  
@@ -144,7 +144,7 @@ RUN docker-php-source extract \
     && docker-php-source delete
 
 # URL: https://getcomposer.org/download/
-ENV COMPOSER_VERSION "1.3.2"
+ENV COMPOSER_VERSION "1.4.1"
 
 # Install Composer
 RUN wget https://getcomposer.org/download/${COMPOSER_VERSION}/composer.phar && \
