@@ -1,6 +1,6 @@
 # PHP Docker Image + Necessary Extensions + Tools
 
-FROM php:7.1.3-fpm-alpine
+FROM php:7.1.4-fpm-alpine
 MAINTAINER Toby Merz <realtiaz@gmail.com>
 
 RUN apk --update add \  
