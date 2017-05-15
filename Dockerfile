@@ -3,7 +3,16 @@
 FROM php:7.1.5-fpm-alpine
 MAINTAINER Toby Merz <realtiaz@gmail.com>
 
-RUN apk --update add \  
+# From here: https://github.com/docker-library/php/issues/105#issuecomment-287466839
+# RUN set -ex \
+#     && apk add --no-cache --virtual .phpize-deps $PHPIZE_DEPS imagemagick-dev libtool \
+#     && export CFLAGS="$PHP_CFLAGS" CPPFLAGS="$PHP_CPPFLAGS" LDFLAGS="$PHP_LDFLAGS" \
+#     && pecl install imagick-3.4.3 \
+#     && docker-php-ext-enable imagick \
+#     && apk add --no-cache --virtual .imagick-runtime-deps imagemagick \
+#     && apk del .phpize-deps
+
+RUN apk --update add \
     #sudo \
     #wget \
     #imagemagick
@@ -34,6 +43,7 @@ RUN apk --update add \
     zip
 
 RUN apk --update add --virtual build-dependencies \
+    $PHPIZE_DEPS \
     build-base \
     autoconf \
     bzip2-dev \
@@ -70,9 +80,10 @@ RUN apk --update add --virtual build-dependencies \
     linux-headers
 
 RUN docker-php-source extract \
+    && export CFLAGS="$PHP_CFLAGS" CPPFLAGS="$PHP_CPPFLAGS" LDFLAGS="$PHP_LDFLAGS" \
     && yes | pecl install \
-        imagick \
-        yaml \
+        imagick-3.4.3 \
+        #yaml \
     && docker-php-ext-install \
         bcmath \
         #bz2 \
