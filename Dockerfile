@@ -144,7 +144,7 @@ RUN docker-php-source extract \
     && docker-php-source delete
 
 # URL: https://getcomposer.org/download/
-ENV COMPOSER_VERSION "1.4.1"
+ENV COMPOSER_VERSION "1.4.2"
 
 # Install Composer
 RUN wget https://getcomposer.org/download/${COMPOSER_VERSION}/composer.phar && \
