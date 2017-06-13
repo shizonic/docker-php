@@ -1,6 +1,6 @@
 # PHP Docker Image + Necessary Extensions + Tools
 
-FROM php:7.1.5-fpm-alpine
+FROM php:7.1.6-fpm-alpine
 MAINTAINER Toby Merz <realtiaz@gmail.com>
 
 # From here: https://github.com/docker-library/php/issues/105#issuecomment-287466839
